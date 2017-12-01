@@ -1,0 +1,3 @@
+DATA:
+    - Consider political factors when training RNN, claims to have played an
+      interesting role here (https://liawww.epfl.ch/uploads/project_reports/report_282.pdf)

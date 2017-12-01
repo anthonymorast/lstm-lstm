@@ -1,0 +1,14 @@
+Evolve a GA to pick the best trades of a timeframe.
+Maximize the amount of money at the end of our timeframe after trading fees
+We will be trading 1 lot, would be interesting to plot the optimal points when trading the following sizes:
+	A standard lot = 100,000 units of base currency
+	A mini lot = 10,000 units of base currency
+	A micro lot = 1,000 units of base currency
+	A nano lot = 100 units of base currency
+
+Use Python? (Does this have OpenCL bindings?)
+
+Dr. Pyeatt:
+	- take timeframe (relatively short)
+	- give the option to {buy, sell, do nothing} each day
+	- essentially we would perform at most 1 trade per day

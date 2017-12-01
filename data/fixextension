@@ -1,0 +1,11 @@
+DIR="$( cd "$( dirname "$1" )" && pwd )"
+full=$1;
+filename=$(basename "$1")
+extension="${filename##*.}";
+filename="${filename%.*}";
+
+newex='.csv';
+sep='/';
+
+echo "Moving file: ".$full."\tTo: ".$DIR$sep$filename$newex;
+mv $full $DIR$sep$filename$newex;

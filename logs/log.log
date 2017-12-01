@@ -1,0 +1,76 @@
+4/28/17:
+	Setup project.
+
+4/29/17:
+	Started with GA code.
+	Built a GA that used crossover with next-in-line members (1 with 2, 2 with 3, ..., and 10-1)
+		- Each crossover first half is from lowest index, second half from highest (except for 10)
+		- Naive, didn't work well
+	Had to get the fast neural network and genetic algorithm libraries form GitHub and build/install them to get ga_opt/ to make
+		- https://github.com/libfann/fann
+		- https://github.com/pemryan/GAlib
+			- cd to ga/ and run that makefile's make or `make install` rather than the makefile in
+			  the root dir for this project. The examples don't build and running make from root 
+			  attempts to build them. Alternatively, run `make lib` or `make install` from the root dir. 
+		- instructions on both READMES are sufficient
+
+6/1/2017:
+	Build/run data retreval. Still works. 
+	Data found at http://ratedata.gaincapital.com/<year>/<month_num>%20<month_nm>
+		- month_nm is uppercase (April, May, etc.)
+		- month_num is 01, 02, ..., 12
+		- year is yyyy format (2017)
+		- %20 is a space (only God knows why there's a space in these dirs)
+	Data is still available and updated, goes through the current month/year
+	./getit to get it
+	dumps data to dir ./<year>/<mo>
+
+6/2/2017:
+	Downloaded 14 years of data
+
+6/3/2017:
+	Missing ./fixextension so created a simple bash script for this, not sure if this does 
+		everything the original does but it seems to work fine. 
+	Repackit, 2003/12/EUR_CHF_Wee2.zip has a EUR_CHF_Wee3.csv. The data appears to be from the
+		second week of December. Changed the file name in the zip file so repackit works correctly
+	Create Python script to fix *any* file that unzips to the incorrect name. The script
+		will rename all the files in <name>.zip to <name>.csv
+		- usage `find . -name \*.zip -exec python3 dir/to/script/fix_bad_zip.py \{\} \;`
+
+6/4-5/2017:
+	Continued fixed misc. errors with the ./repackit executable, that is, errors that arise
+		from malformed data. 
+	Wrote a quick Python script to pull daily data from another site (URL noted in the script header)
+	Began working on a Python GA using the DEAP library and the daily close data mentioned above
+
+
+6/5-6/2017:
+	Created a Python GA using DEAP and some data found online. Might switch not use this but rather
+		the output from C++ when creating a NN 
+	Got the GA up and running and finding optimal solutions
+		-- can we modify the DEAP source to stop once we stop making significant progress in the
+			optimal solutions, that is, turn ngens into a max number of gens but if we go, say, 
+			20% of the generations with no improvement then quit early.
+		-- code for this is in the GitHub deap repo, algorithms.py 
+	
+Some Missing Days:
+	- created a python script to get the daily bid/ask for a ticker file (from data.final)
+
+8/8/2017:
+	- created database of daily data 
+	- created python script to fill daily database table
+
+8/10/17:
+	- pulled 2015/2016 data, had 2007-2009 before but wanted to use different data dued to the
+	  financial crisis that year.
+
+8/11/17: 
+	- changed repackit.c to deal with the new format ofr the Gain Capital CSVs 
+		- the new files have the last column in the second position, which caused a ton of headaches
+	- had to move the 'junk' read before the rest of the reads as this column (cDealable) was moved
+
+8/12-13/17:
+	- added more data to the database
+		- to get right format need to pull 2003-2009 for the original format (repackit.c.old)
+		  then pull 2010-?? and use repackit.c.new version. 2015 seemed to be messed up 
+		  (wouldn't merge sort) didn't test 2011, 2012, 2013, 2014, 2016, or 2017 yet

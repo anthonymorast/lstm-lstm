@@ -1,0 +1,4 @@
+Python will largely be used for Neural Network work while the GA and data collection is done with 
+the C/C++ methods in ../data/ and ../ga_opt/
+
+
