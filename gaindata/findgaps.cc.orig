@@ -1,0 +1,89 @@
+
+#include <data_rec.h>
+#include <tick_file.h>
+#include <stdio.h>
+#include <time.h>
+#include <dates.h>
+
+using namespace std;
+
+#define SECS 3600
+
+int main(int argc, char **argv)
+{
+
+  if(argc != 2)
+    {
+      printf("Usage: %s <filename>\n",argv[0]);
+      return -1;
+    }
+
+  time_t start = my_getdate("01/05/2003 22:00");
+
+  tick_file t(argv[1]);
+  data_rec d;
+  int tick_count=0;
+  time_t cur_time;
+  time_t tmp;
+  int in_gap = 0;
+  int period = 0;
+  struct tm *b_time;
+  time_t tmp_time;
+
+  d = t.next_rec();
+  cur_time = start*1000;
+
+  while(t.more_ticks())
+    {
+      d = t.next_rec();
+
+      if((d.time - cur_time) > (1000*SECS))
+	{
+	  // passed into next period
+	  
+	  tmp_time = cur_time/1000;
+	  b_time = gmtime(&tmp_time);
+
+	  if((b_time->tm_wday == 5)&&
+	     (b_time->tm_hour == 24))
+	    {
+	      // If it is Friday at 23:00, then we skip to Sunday at
+	      // 22:00, and report no gap.
+	      cur_time += ((3600 * 47) * 1000);
+	    }
+	  else
+	    {
+	      if(tick_count == 0)
+		{
+		  if(!in_gap)
+		    {
+		      // no ticks in previous period
+		      in_gap = 1;
+		      tmp_time = cur_time/1000;
+		      printf("Gap start: %s",asctime(gmtime(&tmp_time)));
+		    }
+		}
+	      else
+		{
+		  if(in_gap)
+		    {
+		      in_gap = 0;
+		      tmp_time = cur_time/1000;
+		      printf("Gap end: %s",asctime(gmtime(&tmp_time)));
+		    }	      
+		}
+	      cur_time += (SECS*1000);
+
+	      tmp_time = cur_time/1000;
+	      printf("cur_time = %s",asctime(gmtime(&tmp_time)));
+	      
+	    }
+	  tick_count = 0;
+	}
+      else
+	tick_count++;
+    }
+
+
+  return 0;
+}

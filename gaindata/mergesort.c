@@ -1,0 +1,436 @@
+/* A quick and dirty program to sort the data and remove duplicates
+   It is a fairly standard mergesort, and uses the C library fread
+   and fwrite for fast buffered I/O.
+*/
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <time.h>
+#include <database_format.h>
+
+char *outfiledir="data.reorganized";
+
+int printrec(datarec *rec)
+{
+  printf("serial:%ld time:%ld - %f %f",rec->serial,rec->time,rec->ask,rec->bid);
+}
+
+int copy_until_down(datarec *rec,FILE *src,FILE *dst)
+{
+  int srcvalid=1;
+  int origtime;
+  int origserial;
+  /* copy from src to dst until the key goes down instead of up (or eof) */
+  origtime = rec->time;
+  origserial = rec->serial;
+  if(fwrite(rec,sizeof(datarec),1,dst) != 1)
+    {
+      perror("unable to write output");
+      exit(1);
+    }
+  if(fread(rec,sizeof(datarec),1,src) != 1)
+    srcvalid=0;
+  while(srcvalid&&((rec->time>origtime)||
+		   ((rec->time==origtime)&&
+		    (rec->serial>=origserial))))
+    {
+      origtime = rec->time;
+      origserial = rec->serial;
+      if(fwrite(rec,sizeof(datarec),1,dst) != 1)
+	{
+	  perror("unable to write output");
+	  exit(1);
+	}
+      if(fread(rec,sizeof(datarec),1,src) != 1)
+	srcvalid=0;
+    }
+  return srcvalid;
+}
+
+int merge(char *src1n, char *src2n, char *dstn)
+{
+  FILE *src1;
+  FILE *src2;
+  FILE *dst;
+  datarec rec1,rec2;
+  int src1valid=1;
+  int src2valid=1;
+  int dupts=0;
+  int origtime;
+  int origserial;
+
+  if((src1=fopen(src1n,"r"))==NULL)
+    {
+      perror(src1n);
+      exit(1);
+    }
+  if((src2=fopen(src2n,"r"))==NULL)
+    {
+      perror(src2n);
+      exit(1);
+    }
+  if((dst=fopen(dstn,"w"))==NULL)
+    {
+      perror(dstn);
+      exit(1);
+    }
+  
+  /* get first item from source file 1 */
+  if(fread(&rec1,sizeof(datarec),1,src1) != 1)
+    src1valid=0;
+  
+  /* get first item from source file 2 */
+  if(fread(&rec2,sizeof(datarec),1,src2) != 1)
+    src2valid=0;
+
+  /* As long as we have two valid values, we write one of them
+     and get the next value from the associated file. */
+  while(src1valid && src2valid)
+    {
+      if((rec1.time < rec2.time)||
+	 ((rec1.time == rec2.time)&&(rec1.serial < rec2.serial)))
+	{
+	  /* write record from source 1 to the output file */
+	  if(fwrite(&rec1,sizeof(datarec),1,dst) != 1)
+	    {
+	      perror("unable to write output");
+	      exit(1);
+	    }
+	  origtime = rec1.time;
+	  origserial = rec1.serial;
+	  /* get next item from source 1 */
+	  if(fread(&rec1,sizeof(datarec),1,src1) != 1)
+	    src1valid=0;
+	  /* check to see if key has gone down */
+	  if((rec1.time < origtime)||
+	     ((rec1.time == origtime)&&
+	      (rec1.serial < origserial)))
+	    src2valid = copy_until_down(&rec2,src2,dst);
+	}
+      else
+	{
+#ifdef REMOVE_DUPS
+	  if((rec1.time > rec2.time)||
+	     ((rec1.time == rec2.time)&&(rec1.serial > rec2.serial)))
+	    {
+#endif
+	      /* write record from source 2 to the output file */
+	      if(fwrite(&rec2,sizeof(datarec),1,dst) != 1)
+		{
+		  perror("unable to write output");
+		  exit(1);
+		}
+	      origtime = rec2.time;
+	      origserial = rec2.serial;
+	      /* get next item from source 2 */
+	      if(fread(&rec2,sizeof(datarec),1,src2) != 1)
+		src2valid=0;
+	      /* check to see if key has gone down */
+	      if((rec2.time < origtime)||
+		 ((rec2.time == origtime)&&
+		  (rec2.serial < origserial)))
+		src1valid = copy_until_down(&rec1,src1,dst);
+#ifdef REMOVE_DUPS
+	    }
+	  else
+	    {
+	      /* duplicate time stamps */
+	      if((rec1.bid != rec2.bid)||(rec1.ask != rec2.ask))
+		{
+		  printf("found records with duplicate time stamps ");
+		  printf("but different prices:\n");
+		  printrec(&rec1);printf("\n");
+		  printrec(&rec2);printf("\n");
+		  exit(1);
+		}
+	      else
+		{
+		  dupts++;
+		  /* printf("duplicate records in merge: "); */
+		  /* printf("%s",ctime(&(rec1.time))); */
+		  /* printrec(&rec1);printf("\n"); */
+		  /* printrec(&rec2);printf("\n"); */
+		}
+
+	      origtime = rec2.time;
+	      origserial = rec2.serial;
+	      /* get next item from source 2 */
+	      if(fread(&rec2,sizeof(datarec),1,src2) != 1)
+		src2valid=0;
+	      /* check to see if key has gone down */
+	      if((rec2.time < origtime)||
+		 ((rec2.time == origtime)&&
+		  (rec2.serial < origserial)))
+		src1valid = copy_until_down(&rec1,src1,dst);
+	    }
+#endif
+	}
+    }
+  
+  /* When we reach this point, one or both of the files is empty, copy
+     remainder of the non-empty file, if there is one, to the output
+     file.
+  */
+  
+  while(src1valid)
+    {
+      if(fwrite(&rec1,sizeof(datarec),1,dst) != 1)
+	{
+	  perror("unable to write output");
+	  exit(1);
+	}
+      if(fread(&rec1,sizeof(datarec),1,src1) != 1)
+	src1valid=0;
+    }
+
+  while(src2valid)
+    {
+      if(fwrite(&rec2,sizeof(datarec),1,dst) != 1)
+	{
+	  perror("unable to write output");
+	  exit(1);
+	}
+      if(fread(&rec2,sizeof(datarec),1,src2) != 1)
+	src2valid=0;
+    }
+  //  printf("src 1 pos: %ld     src 2 pos: %ld     dest pos: %ld\n",
+  //	 ftell(src1),ftell(src2),ftell(dst));
+
+  // Without a flush, it does not finish writing the file, though the
+  // fclose should flush everything to the file. 
+  // Probably a C library (libc) bug. 
+  fflush(dst);  
+
+  fclose(src1);
+  fclose(src2);
+  fclose(dst);
+  return dupts;
+}
+
+int datarec_equal(datarec *l,datarec *r)
+{
+  if(l->time != r->time)
+    return 0;
+  if(l->serial != r->serial)
+    return 0;
+  if(l->bid != r->bid)
+    return 0;
+  if(l->ask != r->ask)
+    return 0;
+  return 1;
+}
+
+int split(char *srcn,char *dst1n,char *dst2n)
+{
+  FILE *src;
+  FILE *dst1;
+  FILE *dst2;
+  datarec rec1,rec2;
+  int currfile = 0;
+  int switched = 0;
+  int valid;
+  int deleted = 0;
+  if((src=fopen(srcn,"r"))==NULL)
+    {
+      perror(srcn);
+      exit(1);
+    }
+  if((dst1=fopen(dst1n,"w"))==NULL)
+    {
+      perror(dst1n);
+      exit(1);
+    }
+  if((dst2=fopen(dst2n,"w"))==NULL)
+    {
+      perror(dst2n);
+      exit(1);
+    }
+
+  if(fread(&rec1,sizeof(datarec),1,src) != 1)
+    {
+      printf("source file empty!\n");
+      exit(1);
+    }
+
+  while(fread(&rec2,sizeof(datarec),1,src) == 1)
+    {
+#ifdef REMOVE_DUPS
+      /* check for duplicate records */
+      valid = 1;
+      while((datarec_equal(&rec1,&rec2))&&valid)
+	{
+	  /* 	  printf("duplicate records in split: "); */
+	  /* 	  printf("%s",ctime(&(rec1.time))); */
+	  /* 	  printrec(&rec1);printf("\n"); */
+	  /* 	  printrec(&rec2);printf("\n"); */
+	  valid = (fread(&rec2,sizeof(datarec),1,src)==1);
+	  deleted++;
+	}
+      if(valid)
+#endif
+	{
+	  if(currfile==0)
+	    fwrite(&rec1,sizeof(datarec),1,dst1);
+	  else
+	    fwrite(&rec1,sizeof(datarec),1,dst2);
+	  
+	  if((rec1.time>rec2.time)||((rec1.time==rec2.time)&&(rec1.serial>rec2.serial)))
+	    {
+	      currfile ^= 1;
+	      switched++;
+	    }
+	  rec1 = rec2;
+	}
+    }
+  
+  if(currfile==0)
+    fwrite(&rec1,sizeof(datarec),1,dst1);
+  else
+    fwrite(&rec1,sizeof(datarec),1,dst2);
+    
+  // Without a flush, it does not finish writing the file, though the
+  // fclose should flush everything to the file. 
+  // Probably a C library (libc) bug. 
+  fflush(dst1);
+  fflush(dst2);
+
+  fclose(src);
+  fclose(dst1);
+  fclose(dst2);
+
+  // printf("split switched files %d times\n",switched);
+  // printf("  %d duplicate records removed\n",deleted);
+
+  return switched;
+
+}
+
+int uniq(char *srcn, char *dstn)
+{
+  FILE *src; // source file
+  FILE *dst; // destination file
+  datarec prev,curr;
+  int dupts=0;
+
+  if((src=fopen(srcn,"r"))==NULL)
+    {
+      perror(srcn);
+      exit(1);
+    }
+
+  if((dst=fopen(dstn,"w"))==NULL)
+    {
+      perror(dstn);
+      exit(1);
+    }
+
+  if(fread(&prev,sizeof(datarec),1,src) != 1)
+    {
+      printf("source file empty!\n");
+      exit(1);
+    }
+
+  while(fread(&curr,sizeof(datarec),1,src) == 1)
+    {
+      if(!datarec_equal(&prev,&curr))
+	fwrite(&prev,sizeof(datarec),1,dst);
+      else
+	dupts++;
+      prev = curr;
+    }
+
+  fwrite(&prev,sizeof(datarec),1,dst);
+
+  // Without a flush, it does not finish writing the file, though the
+  // fclose should flush everything to the file. 
+  // Probably a C library (libc) bug. 
+  fflush(dst);
+
+  fclose(src);
+  fclose(dst);
+
+  return dupts;
+}
+  
+
+void mergesort(char *filename)
+{
+  char *splita,*splitb;
+  int dupts,switches;
+  
+  splita = malloc(strlen(filename)+10);
+  splitb = malloc(strlen(filename)+10);
+  sprintf(splita,"%s.splita",filename);
+  sprintf(splitb,"%s.splitb",filename);
+
+  while((switches = split(filename,splita,splitb))>0)
+    {
+      printf("%s switched %d times during split\n",filename,switches);
+
+      dupts = merge(splita,splitb,filename);
+#ifdef REMOVE_DUPS
+      printf("%d duplicates removed in merge - ",dupts);
+#endif
+      printf("%s merged\n",filename);
+      //  exit(1);
+
+    }
+
+  printf("%s switched %d times during split\n",filename,switches);
+  /* final split left all of the data in splita, copy back to original
+     file, removing duplicates */
+  dupts=uniq(splita,filename); 
+  printf("%s: %d duplicates removed\n\n",filename,dupts);
+
+  // get rid of tmp files to save disk space.
+  unlink(splita); 
+  unlink(splitb); 
+
+}
+
+
+int main()
+{
+  char dirname[128];
+  char filename[128];
+  int year,month;
+  char command[128];
+  DIR *d;
+  struct dirent *de;
+  int dupts = 0;
+
+  sprintf(dirname,"data.reorganized");
+
+ /* open all the files */
+  d = opendir(dirname);
+  if(d!=NULL)
+    {
+      /* read all entries, looking for data files */
+      while((de=readdir(d))!=NULL)
+	{
+	  if(de->d_name[0]!='.')
+	    {
+	      sprintf(filename,"%s/%s",dirname,de->d_name);
+	      mergesort(filename);
+	    }
+	}
+      closedir(d);
+    }
+
+/*   sprintf(command,"rm -f %s/\*.splita",dirname); */
+/*   system(command); */
+/*   sprintf(command,"rm -f %s/\*.splitb",dirname); */
+/*   system(command); */
+  
+
+  return 0;
+}
+
+
+
+
