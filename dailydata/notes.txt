@@ -1,0 +1,5 @@
+- Will probably want to grab data for both countries in the currency pair
+	- we're modeling two economies so we need economic data from both
+- Rather than having a lot of features could combine them
+	- e.g. USA_GDP, EU_GDP and forecasting EUR/USD, take EU_GDP/USA_GDP and
+	  essentially get a ratio of the two to use as input

@@ -1,0 +1,16 @@
+Can probably get a lot of data from: https://www.bea.gov/histdata/
+
+Output gap from Quandl (need to use API): https://www.quandl.com/data/ODA/USA_NGAP_NPGDP-United-States-Output-Gap-of-potential-GDP
+
+US Federal Reserve should also have some data
+	- Fed reserve on quandl: https://www.quandl.com/data/FED-US-Federal-Reserve-Data-Releases?page=32
+
+Interest Rates
+	https://fred.stlouisfed.org/series/DFF
+	
+All around good data site
+	https://fred.stlouisfed.org/tags/
+	https://fred.stlouisfed.org/tags/series?t=rate
+		- unemployment, real gdp, gdp, etc.
+		
+	GDP: https://fred.stlouisfed.org/series/GDPCA

@@ -1,0 +1,18 @@
+Can mine gold data from http://www.usagold.com/reference/prices/goldhistory.php :
+	- to get 2016/2017 use URL
+		- http://www.usagold.com/reference/prices/goldhistory.php?ddYears=<year {2016, 2017}>
+	- to get 1968 - 2016 use URL
+		- http://www.usagold.com/reference/goldprices/1968.html
+		- replaces 1968 with year from 1968 - 2016
+
+Can mine silver prices in the same way from a slightly different URL:
+	- http://www.usagold.com/reference/prices/silverhistory.php
+	- 2015 - 2017: http://www.usagold.com/reference/prices/silverhistory.php?ddYear=<year {2015, 2016, 2017}>
+	- 1968 - 2016: http://www.usagold.com/reference/silverprices/1968.html
+		- replace 1968 with a year from 1968 to 2016
+		
+Quandl also has perth mint
+	https://www.quandl.com/data/ODA/USA_NGAP_NPGDP-United-States-Output-Gap-of-potential-GDP
+	-- would probably be easier to grab from here, exports a nice CSV so there is no parsing
+		-- CSV changes format, for later years there are blank rows for weekend recent years just remove the dates
+			-- remove the blanks
