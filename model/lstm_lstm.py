@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers import Dense, LSTM
 from math import *
 from pandas import DataFrame
+import random
 
 from data_handler import * 
 
@@ -80,6 +81,12 @@ if __name__ == "__main__":
 	error_ve = outy - yhat_ve[:, 0]
 	mse_ve = sum(error_ve**2) / len(error_ve)
 
-	for i in range(len(outx)):
-		print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
-	print("\n\nSingle model MSE:", mse_v, "\nHybrid MSE:", mse_ve)
+	yhat_vr = yhat_v
+	for i in range(len(yhat_vr)):
+		yhat_vr[i] += random.uniform(0, .2)
+	error_vr = outy - yhat_vr[:, 0]
+	mse_vr = sum(error_vr**2) / len(error_vr)
+
+	#for i in range(len(outx)):
+	#	print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
+	print("\n\nSingle model MSE:", mse_v, "\nHybrid MSE:", mse_ve, "\nRandom Error Added MSE:", mse_vr)
