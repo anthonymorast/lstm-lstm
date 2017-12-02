@@ -9,8 +9,13 @@ import random
 from data_handler import * 
 
 
-def lstm_cell(lstm_size):
-	return tf.contrib.rnn.BasicLSTMCell(lstm_size)
+def getDifferenceStats(seriesData):
+	obs = len(seriesData)
+	diff = []
+	seriesData = [float(i) for i in seriesData]
+	for i in range(1, obs):
+		diff.append(seriesData[i] - seriesData[i-1])
+	return min(diff), max(diff), sum(diff)/len(diff)
 
 
 if __name__ == "__main__":
@@ -25,6 +30,7 @@ if __name__ == "__main__":
 	dh.tsdata.columns = ['DATE_LAG', 'TICKER_LAG', 'DATE', 'TICKER']
 
 	tsvalues = dh.tsdata.values
+	mi, ma, avg = getDifferenceStats(tsvalues[:, 3])
 
 	train = tsvalues[:train_size, :]						# used to train lstm
 	test = tsvalues[train_size:(train_size+test_size), :]	# get errors for error lstm
@@ -81,12 +87,18 @@ if __name__ == "__main__":
 	error_ve = outy - yhat_ve[:, 0]
 	mse_ve = sum(error_ve**2) / len(error_ve)
 
-	yhat_vr = yhat_v
+	yhat_vr = yhat_v.copy()
 	for i in range(len(yhat_vr)):
-		yhat_vr[i] += random.uniform(0, .2)
+		yhat_vr[i] += random.uniform(-.2, .2)
 	error_vr = outy - yhat_vr[:, 0]
 	mse_vr = sum(error_vr**2) / len(error_vr)
 
+	yhat_range = yhat_v.copy()
+	for i in range(len(yhat_range)):
+		yhat_range[i] += random.uniform(-ma, ma)
+	error_range = outy - yhat_range[:,0]
+	mse_range = sum(error_range**2) / len(error_range)
+
 	#for i in range(len(outx)):
 	#	print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
-	print("\n\nSingle model MSE:", mse_v, "\nHybrid MSE:", mse_ve, "\nRandom Error Added MSE:", mse_vr)
+	print("\n\nSingle model MSE:\t\t", mse_v, "\nHybrid MSE:\t\t\t", mse_ve, "\nRandom Error Added MSE:\t\t", mse_vr, "\nMinMax Range Random MSE:\t", mse_range)
