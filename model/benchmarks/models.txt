@@ -1,0 +1,11 @@
+Goodness:
+	Random Walk
+	ANN
+	ARIMA
+	SVM
+
+Comparison to Other Hybrids:
+	ANN + SVM
+	ANN + DBN
+	ANN + ARIMA
+
