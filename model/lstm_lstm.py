@@ -19,8 +19,8 @@ def getDifferenceStats(seriesData):
 
 
 if __name__ == "__main__":
-	train_size = 1000
-	test_size = 2000
+	train_size = 1500
+	test_size = 2500
 
 	dh = DataHandler("../dailydata/forex/EURUSD.csv")
 
@@ -82,6 +82,9 @@ if __name__ == "__main__":
 
 	error_v = outy - yhat_v[:, 0]	# get error of just the series lstm
 	mse_v = sum(error_v**2) / len(error_v)
+
+	pyplot.plot(error_v, 'bs', yhat_e, 'r^')
+	pyplot.show()
 
 	yhat_ve = yhat_v + yhat_e
 	error_ve = outy - yhat_ve[:, 0]
