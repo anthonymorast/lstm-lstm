@@ -55,8 +55,8 @@ if __name__ == "__main__":
 		hist.append(obs)
 		print('predicted: %f\texpected: %f\tdiff: %f' % (yhat, obs, abs(yhat-obs)))
 
-	print(len(test), len(predictions))	
-	s = sum(abs(test-predictions))
-	print(s)
-	s /= len(test)
-	print(s)
+	mse = 0
+	for i in range(len(predictions)):
+		mse = mse + ((test[i] - predictions[i])**2)
+	mse /= len(predictions)
+	print(mse)

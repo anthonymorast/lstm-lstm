@@ -85,7 +85,7 @@ if __name__ == "__main__":
 	yhat_e = lstm_e.predict(outx)
 
 	error_v = outy - yhat_v[:, 0]	# get error of just the series lstm
-	mse_v = sum(abs(error_v)) / len(error_v)
+	mse_v = sum(abs(error_v**2)) / len(error_v)
 
 	yhat_ve = yhat_v + yhat_e
 	error_ve = outy - yhat_ve[:, 0]
