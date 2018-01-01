@@ -51,12 +51,17 @@ if __name__ == "__main__":
     testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
     outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
 
+<<<<<<< HEAD
     # GA params - not that good
     # base = MyLSTM(trainx.shape[1], 3, [49 for _ in range(3)], trainy.shape[1], epochs=84, batch_size=100)
 
     # not bad
     # base = MyLSTM(trainx.shape[1], 1, [50 for _ in range(3)], trainy.shape[1], epochs=200, batch_size=100)
     base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(3)], trainy.shape[1], epochs=100, batch_size=100)
+=======
+    # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+    base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+>>>>>>> 6e66906593bc6295fb6822800a40137c71239bdd
     print("\n\nTraining Base Model...")
     base.train(trainx, trainy)
 
@@ -65,10 +70,19 @@ if __name__ == "__main__":
     error = testy - yhat[:, 0]
     mse = sum(error ** 2) / len(yhat)
 
+<<<<<<< HEAD
+=======
+    pyplot.title("Single LSTM Residuals")
+    # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
+    pyplot.plot(error, 'bs', label="residuals")
+    pyplot.legend()
+    pyplot.show()
+>>>>>>> 6e66906593bc6295fb6822800a40137c71239bdd
     # error = output (y) for each input (series value)
     e_trainx = testx
     e_trainy = error.reshape(error.shape[0], 1)
 
+<<<<<<< HEAD
     # GA params - not that good
     # error = MyLSTM(e_trainx.shape[1], 3, [6 for _ in range(3)], e_trainy.shape[1], epochs=69, batch_size=100)
 
@@ -76,6 +90,10 @@ if __name__ == "__main__":
     # error = MyLSTM(e_trainx.shape[1], 50, [50 for _ in range(50)], e_trainy.shape[1], epochs=200, batch_size=100)
 
     error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(50)], e_trainy.shape[1], epochs=150, batch_size=100)
+=======
+    # good: error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
+    error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
+>>>>>>> 6e66906593bc6295fb6822800a40137c71239bdd
     print("\n\nTraining Error Model...")
     error.train(e_trainx, e_trainy)
 
@@ -107,6 +125,7 @@ if __name__ == "__main__":
     print("\n\nSingle model MAE:\t\t", mse_v, "\nHybrid MAE:\t\t\t", mse_ve, "\nRandom Error Added MAE:\t\t", mse_vr,
           "\nMinMax Range Random MAE:\t", mse_range)
 
+<<<<<<< HEAD
     pyplot.plot(outy[:1000], 'bs', label='actual')
     pyplot.plot(yhat_v[:1000], 'r^', label='single lstm')
     pyplot.plot(yhat_ve[:1000], 'go', label='hybrid')
@@ -115,4 +134,13 @@ if __name__ == "__main__":
     pyplot.title("LSTM-LSTM vs. LSTM vs. Actual")
     pyplot.legend()
     pyplot.savefig("eurusd.eps", format='eps', dpi=1000)
+=======
+    pyplot.title("LSTM-LSTM vs. LSTM vs. Actual")
+    pyplot.plot(outy, 'bs', label='actual')
+    pyplot.plot(yhat_v, 'r^', label='single lstm')
+    pyplot.plot(yhat_ve, 'go', label='hybrid')
+    pyplot.ylabel("EUR/USD Exchange Rate")
+    pyplot.xlabel("Time (Days Since 6/23/2004)")
+    pyplot.legend()
+>>>>>>> 6e66906593bc6295fb6822800a40137c71239bdd
     pyplot.show()
