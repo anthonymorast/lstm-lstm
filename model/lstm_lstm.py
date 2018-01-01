@@ -4,100 +4,110 @@ from pandas import DataFrame
 import random
 from lstm import *
 
-from data_handler import * 
+from data_handler import *
 
 
 def getDifferenceStats(seriesData):
-	obs = len(seriesData)
-	diff = []
-	seriesData = [float(i) for i in seriesData]
-	for i in range(1, obs):
-		diff.append(seriesData[i] - seriesData[i-1])
-	return min(diff), max(diff), sum(diff)/len(diff)
+    obs = len(seriesData)
+    diff = []
+    seriesData = [float(i) for i in seriesData]
+    for i in range(1, obs):
+        diff.append(seriesData[i] - seriesData[i - 1])
+    return min(diff), max(diff), sum(diff) / len(diff)
 
 
 if __name__ == "__main__":
-	train_size = 1000
-	test_size = 1000
+    train_size = 1000
+    test_size = 1000
 
-	dh = DataHandler("../dailydata/forex/EURUSD.csv")
+    dh = DataHandler("../dailydata/forex/EURUSD.csv")
 
-	# Creates 2 new columns that are lagged by 1. These columns are
-	# the 'features'.
-	dh.timeSeriesToSupervised()
-	dh.tsdata.columns = ['DATE_LAG', 'TICKER_LAG', 'DATE', 'TICKER']
+    # Creates 2 new columns that are lagged by 1. These columns are
+    # the 'features'.
+    dh.timeSeriesToSupervised()
+    dh.tsdata.columns = ['DATE_LAG', 'TICKER_LAG', 'DATE', 'TICKER']
 
-	tsvalues = dh.tsdata.values
-	mi, ma, avg = getDifferenceStats(tsvalues[:, 3])
+    tsvalues = dh.tsdata.values
+    mi, ma, avg = getDifferenceStats(tsvalues[:, 3])
 
-	train = tsvalues[:train_size, :]						# used to train lstm
-	test = tsvalues[train_size:(train_size+test_size), :]	# get errors for error lstm
-	out = tsvalues[(train_size+test_size):, :]				# predict these values with both lstm's
-															# compare lstm_v rmse with lstm_v + lstm_e prediction rsme
+    train = tsvalues[:train_size, :]  # used to train lstm
+    test = tsvalues[train_size:(train_size + test_size), :]  # get errors for error lstm
+    out = tsvalues[(train_size + test_size):, :]  # predict these values with both lstm's
+    # compare lstm_v rmse with lstm_v + lstm_e prediction rsme
 
-	outx, outy = out[:, 1], out[:, 3]
+    outx, outy = out[:, 1], out[:, 3]
 
-	trainx, trainy = train[:, 1], train[:, 3]
-	testx, testy = test[:, 1], test[:, 3]
+    trainx, trainy = train[:, 1], train[:, 3]
+    testx, testy = test[:, 1], test[:, 3]
 
-	testy_dates = test[:, 2]
+    testy_dates = test[:, 2]
 
-	# vec->2d
-	trainy = trainy.reshape(trainy.shape[0], 1)
-	trainx = trainx.reshape(trainx.shape[0], 1)
-	testx = testx.reshape(testx.shape[0], 1)
-	outx = outx.reshape(outx.shape[0], 1)
-	trainx = trainx.reshape((trainx.shape[0], 1, trainx.shape[1]))
-	testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
-	outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
+    # vec->2d
+    trainy = trainy.reshape(trainy.shape[0], 1)
+    trainx = trainx.reshape(trainx.shape[0], 1)
+    testx = testx.reshape(testx.shape[0], 1)
+    outx = outx.reshape(outx.shape[0], 1)
+    trainx = trainx.reshape((trainx.shape[0], 1, trainx.shape[1]))
+    testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
+    outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
 
-	base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
-	print("\n\nTraining Base Model...")
-	base.train(trainx, trainy)
+    # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+    base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+    print("\n\nTraining Base Model...")
+    base.train(trainx, trainy)
 
-	# get error data and train error lstm
-	yhat = base.predict(testx)
-	error = testy-yhat[:, 0]
-	mse = sum(error**2) / len(yhat)
+    # get error data and train error lstm
+    yhat = base.predict(testx)
+    error = testy - yhat[:, 0]
+    mse = sum(error ** 2) / len(yhat)
 
-	# error = output (y) for each input (series value)
-	e_trainx = testx
-	e_trainy = error.reshape(error.shape[0], 1)
+    pyplot.title("Single LSTM Residuals")
+    # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
+    pyplot.plot(error, 'bs', label="residuals")
+    pyplot.legend()
+    pyplot.show()
+    # error = output (y) for each input (series value)
+    e_trainx = testx
+    e_trainy = error.reshape(error.shape[0], 1)
 
-	error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
-	print("\n\nTraining Error Model...")
-	error.train(e_trainx, e_trainy)
+    # good: error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
+    error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
+    print("\n\nTraining Error Model...")
+    error.train(e_trainx, e_trainy)
 
+    # with both models trained, pass in out_x to each prediction
+    yhat_v = base.predict(outx)
+    yhat_e = error.predict(outx)
 
-	# with both models trained, pass in out_x to each prediction
-	yhat_v = base.predict(outx)
-	yhat_e = error.predict(outx)
+    error_v = outy - yhat_v[:, 0]  # get error of just the series lstm
+    mse_v = sum(error_v ** 2) / len(error_v)
 
-	error_v = outy - yhat_v[:, 0]	# get error of just the series lstm
-	mse_v = sum(error_v**2) / len(error_v)
+    yhat_ve = yhat_v + yhat_e
+    error_ve = outy - yhat_ve[:, 0]
+    mse_ve = sum(error_ve ** 2) / len(error_ve)
 
-	yhat_ve = yhat_v + yhat_e
-	error_ve = outy - yhat_ve[:, 0]
-	mse_ve = sum(error_ve**2) / len(error_ve)
+    yhat_vr = yhat_v.copy()
+    for i in range(len(yhat_vr)):
+        yhat_vr[i] += random.uniform(-.2, .2)
+    error_vr = outy - yhat_vr[:, 0]
+    mse_vr = sum(error_vr ** 2) / len(error_vr)
 
-	yhat_vr = yhat_v.copy()
-	for i in range(len(yhat_vr)):
-		yhat_vr[i] += random.uniform(-.2, .2)
-	error_vr = outy - yhat_vr[:, 0]
-	mse_vr = sum(error_vr**2) / len(error_vr)
+    yhat_range = yhat_v.copy()
+    for i in range(len(yhat_range)):
+        yhat_range[i] += random.uniform(-ma, ma)
+    error_range = outy - yhat_range[:, 0]
+    mse_range = sum(error_range ** 2) / len(error_range)
 
-	yhat_range = yhat_v.copy()
-	for i in range(len(yhat_range)):
-		yhat_range[i] += random.uniform(-ma, ma)
-	error_range = outy - yhat_range[:,0]
-	mse_range = sum(error_range**2) / len(error_range)
+    # for i in range(len(outx)):
+    #	print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
+    print("\n\nSingle model MAE:\t\t", mse_v, "\nHybrid MAE:\t\t\t", mse_ve, "\nRandom Error Added MAE:\t\t", mse_vr,
+          "\nMinMax Range Random MAE:\t", mse_range)
 
-	#for i in range(len(outx)):
-	#	print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
-	print("\n\nSingle model MAE:\t\t", mse_v, "\nHybrid MAE:\t\t\t", mse_ve, "\nRandom Error Added MAE:\t\t", mse_vr, "\nMinMax Range Random MAE:\t", mse_range)
-	
-	pyplot.plot(outy, 'bs', label='actual')
-	pyplot.plot(yhat_v, 'r^', label='single lstm')
-	pyplot.plot(yhat_ve, 'go', label='hybrid')
-	pyplot.legend()
-	pyplot.show()
+    pyplot.title("LSTM-LSTM vs. LSTM vs. Actual")
+    pyplot.plot(outy, 'bs', label='actual')
+    pyplot.plot(yhat_v, 'r^', label='single lstm')
+    pyplot.plot(yhat_ve, 'go', label='hybrid')
+    pyplot.ylabel("EUR/USD Exchange Rate")
+    pyplot.xlabel("Time (Days Since 6/23/2004)")
+    pyplot.legend()
+    pyplot.show()
