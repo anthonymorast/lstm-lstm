@@ -12,6 +12,8 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
 
 # Research Objectives
 
-Error corrected model
++ Error corrected model
 
-Nest the error corrected model, that is predict errors of base model with LSTM, predict errors of base model + LSTM with LSTM, predict errors of base model + LSTM + LSTM with LSTM, etc. Will this work?
++ Nest the error corrected model, that is predict errors of base model with LSTM, predict errors of base model + LSTM with LSTM, predict errors of base model + LSTM + LSTM with LSTM, etc. Will this work?
+
++ Train single LSTM for hybrid (shares weights/biases): one LSTM, two outputs
