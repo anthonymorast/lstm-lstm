@@ -16,4 +16,6 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
 
 + Nest the error corrected model, that is predict errors of base model with LSTM, predict errors of base model + LSTM with LSTM, predict errors of base model + LSTM + LSTM with LSTM, etc. Will this work?
 
-+ Train single LSTM for hybrid (shares weights/biases): one LSTM, two outputs
++ Train single LSTM for hybrid (shares weights/biases): one LSTM, two outputs viz. value and error
+
++ Train error model using errors, time series values, and both to see which produces the best results. 
