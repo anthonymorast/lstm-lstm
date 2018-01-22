@@ -7,20 +7,23 @@
 # and hat(y) = predicted values.
 ##########
 
+import  statsmodels as sm
+
 #####
 # Mean Error = sum_1^n(hat(y_i) - y_i)/n
 #####
 def MeanError(y, y_hat):
-	n = len(y)
-	if n != len(y_hat):
-		print('Size of predicted values and actual values are not equal')
-		return
-	return float(sum([y_hat[i] - y[i] for i in range(0, n)])) / float(n)
-
+    n = len(y)
+    if n != len(y_hat):
+        print('Size of predicted values and actual values are not equal')
+        return
+    return float(sum([y_hat[i] - y[i] for i in range(0, n)])) / float(n)
 
 #####
 # Mean Absolute Error = sum_1^n(abs(hat(y_i) - y_i))/n
 #####
+def MeanAbsoluteError(y, y_hat):
+    return sm.
 
 #####
 # Mean Squared Error = sum_1^n((hat(y_i) - y_i)^2)/n
@@ -37,4 +40,3 @@ def MeanError(y, y_hat):
 #####
 # Symmetric Mean Absolute Percentage Error = (100%/n) sum_1^n(abs(hat(y_i) - y_i)/(abs(y_i) + abs(hat(y_i))))
 #####
-
