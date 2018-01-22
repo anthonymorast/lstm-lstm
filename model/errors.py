@@ -7,36 +7,68 @@
 # and hat(y) = predicted values.
 ##########
 
-import  statsmodels as sm
+from sklearn import metrics
+from math import sqrt
 
 #####
 # Mean Error = sum_1^n(hat(y_i) - y_i)/n
 #####
-def MeanError(y, y_hat):
+def me(y, y_hat):
     n = len(y)
     if n != len(y_hat):
-        print('Size of predicted values and actual values are not equal')
-        return
+	print('Size of predicted values and actual values are not equal')
+	return
     return float(sum([y_hat[i] - y[i] for i in range(0, n)])) / float(n)
+
 
 #####
 # Mean Absolute Error = sum_1^n(abs(hat(y_i) - y_i))/n
 #####
-def MeanAbsoluteError(y, y_hat):
-    return sm.
+def mae(y, y_hat):
+    return metrics.mean_absolute_error(y, y_hat)
+
 
 #####
 # Mean Squared Error = sum_1^n((hat(y_i) - y_i)^2)/n
 #####
+def mse(y, y_hat):
+    return metrics.mean_squared_error(y, y_hat)
+
 
 #####
-# Root-Mean-Square Error = sqrt(Mean Squared Error)
+# Root Mean Squared Error = sqrt(Mean Squared Error)
 #####
+def RootMse(y, y_hat):
+    e = mse(y, y_hat)
+    return sqrt(e)
+
 
 #####
 # Mean Absolute Percentage Error = (100%/n) sum_1^n(abs((hat(y_i) - y_i)/y_i))
 #####
+def mape(y, y_hat):
+    n = len(y)
+    if len(y) != len(y_hat):
+        print('Size of predicted values and actual values are not equal')
+        return
+    t = 0
+    for i in range(0, n):
+        t = t + abs((y_hat[i] - y[i]) / y[i])
+    t = t/n
+    return t*100
+
+
 
 #####
 # Symmetric Mean Absolute Percentage Error = (100%/n) sum_1^n(abs(hat(y_i) - y_i)/(abs(y_i) + abs(hat(y_i))))
 #####
+def smape(y, y_hat):
+    n = len(y)
+    if len(y) != len(y_hat):
+        print('Size of predicted values and actual values are not equal')
+        return
+    t = 0
+    for i in range(0, n):
+        t = t + (abs(y_hat[i] - y[i]))/(abs(y[i]) + abs(y_hat[i]))
+    t = t/n
+    return t*100
