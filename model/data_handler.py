@@ -5,6 +5,9 @@ class DataHandler(object):
     def __init__(self, filename):
         self.setDataByFile(filename)
         self.tsdata = None
+        self.train = None
+        self.test = None
+        self.outOfSample = None
 
     #
     # Sets the data for the class from the file.
@@ -40,6 +43,7 @@ class DataHandler(object):
         df = pd.concat(columns, axis=1)
         df.fillna(0, inplace=True)
 
+        df.columns = ['DATE_LAG', 'TICKER_LAG', 'DATE', 'TICKER']
         self.tsdata = df
 
     def outsideTSToSupervised(self, data, lag=1):
@@ -50,3 +54,17 @@ class DataHandler(object):
         df.fillna(0, inplace=True)
 
         return df
+
+    #
+    # Splits the data into train, test, and out of sample subsets.
+    #
+    def splitData(self, testSize, trainSize, outOfSampleSize):
+        self.train = self.tsdata.values[:trainSize, :]
+        self.test = self.tsdata.values[trainSize:(trainSize + testSize), :]
+        self.outOfSample = self.tsdata.values[(trainSize + testSize):, :]
+
+    #
+    # Returns the train, test, and out of sample data set
+    #
+    def getDataSets(self):
+        return self.train, self.test, self.outOfSample

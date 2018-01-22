@@ -1,1 +1,1 @@
-depends: numpy, scipy, pandas, tensorflow, keras, deap (for params)
+depends: numpy, scipy, pandas, tensorflow, keras, sklearn

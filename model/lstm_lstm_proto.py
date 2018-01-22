@@ -25,7 +25,6 @@ if __name__ == "__main__":
     # Creates 2 new columns that are lagged by 1. These columns are
     # the 'features'.
     dh.timeSeriesToSupervised()
-    dh.tsdata.columns = ['DATE_LAG', 'TICKER_LAG', 'DATE', 'TICKER']
 
     tsvalues = dh.tsdata.values
     mi, ma, avg = getDifferenceStats(tsvalues[:, 3])
@@ -80,7 +79,6 @@ if __name__ == "__main__":
     # error = MyLSTM(e_trainx.shape[1], 3, [6 for _ in range(3)], e_trainy.shape[1], epochs=69, batch_size=100)
     # not bad
     # error = MyLSTM(e_trainx.shape[1], 50, [50 for _ in range(50)], e_trainy.shape[1], epochs=200, batch_size=100)
-    error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(50)], e_trainy.shape[1], epochs=150, batch_size=100)
     # good: error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
     error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
     print("\n\nTraining Error Model...")

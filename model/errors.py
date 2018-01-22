@@ -16,8 +16,7 @@ from math import sqrt
 def me(y, y_hat):
     n = len(y)
     if n != len(y_hat):
-	print('Size of predicted values and actual values are not equal')
-	return
+        print('Size of predicted values and actual values are not equal')
     return float(sum([y_hat[i] - y[i] for i in range(0, n)])) / float(n)
 
 
@@ -56,7 +55,6 @@ def mape(y, y_hat):
         t = t + abs((y_hat[i] - y[i]) / y[i])
     t = t/n
     return t*100
-
 
 
 #####
