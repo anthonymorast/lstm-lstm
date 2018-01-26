@@ -33,6 +33,21 @@ class MyLSTM(object):
         """
         return self.model.predict(data)
 
+
+    def get_weights(self):
+        """
+            Returns the weights for each layer in the network (list of arrays).
+        """
+        return self.model.get_weights()
+
+
+    def set_weights(self, weights):
+        """
+            Sets the weights of the network.
+        """
+        self.model.set_weights(weights)
+
+
     def train(self, train_x, train_y, optimzer='adam'):
         """
             Trains the model using the Adam optimization algortihm (more to be implemented
