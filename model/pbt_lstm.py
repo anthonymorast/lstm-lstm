@@ -2,6 +2,7 @@ import random
 import time
 from errors import *
 from lstm import *
+import gc
 
 """
     TODO:
@@ -83,12 +84,13 @@ class PBT(object):
 
             errors = []
             for j in range(0, len(self.models)):
+                gc.collect()
                 print("\tTraining member " + str(j) + " out of " + str(self.population_size))
                 model = self.models[j]
                 self.step(model)
                 error = self.eval(model)
                 if error < best[0]:
-                    print("New best error: " + str(error) + ", hyperparams=",model[1])
+                    print("New best error: " + str(error) + ", hyperparams=", model[1])
                     best = [error, model[1], model[0].get_weights()]
                 errors.append(error)
                 # TODO: make better decisions
@@ -128,6 +130,7 @@ class PBT(object):
         """
             Trains the model using its built in train method.
         """
+        print('\tTraining model with hyperparams: ', model[1])
         model[0].train(self.trainx, self.trainy)
 
 
@@ -154,6 +157,8 @@ class PBT(object):
                 hyperparams[1].append(random.randint(2, 50))
             if hyperparams[1][i] <= 0:
                 hyperparams[1][i] = random.randint(2, 50)
+            if len(hyperparams[1]) > hyperparams[0]:
+                hyperparams[1] = hyperparams[1][:hyperparams[0]]
         hyperparams[2] = hyperparams[2] + random.randint(-15, 15)
         if hyperparams[2] < 50:
             hyperparams[2] = 50

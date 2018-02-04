@@ -3,6 +3,7 @@ from math import *
 from pandas import DataFrame
 import random
 from lstm import *
+from errors import *
 
 from data_handler import *
 
@@ -55,15 +56,17 @@ if __name__ == "__main__":
     # not bad
     # base = MyLSTM(trainx.shape[1], 1, [50 for _ in range(3)], trainy.shape[1], epochs=200, batch_size=100)
     # base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(3)], trainy.shape[1], epochs=100, batch_size=100)
-    # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
-    base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+    # # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+    # # baseline: base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+    # PBT
+    base = MyLSTM(trainx.shape[1], 8, [29, 15, 23, 122, 38, 119, 99, 63, 26, 41, 15, 47], trainy.shape[1], epochs=100, batch_size=100)
     print("\n\nTraining Base Model...")
     base.train(trainx, trainy)
 
     # get error data and train error lstm
     yhat = base.predict(testx)
     error = testy - yhat[:, 0]
-    mse = sum(error ** 2) / len(yhat)
+    mse_b = sum(error ** 2) / len(yhat)
 
     pyplot.title("Single LSTM Residuals")
     # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
@@ -87,25 +90,20 @@ if __name__ == "__main__":
     # with both models trained, pass in out_x to each prediction
     yhat_v = base.predict(outx)
     yhat_e = error.predict(outx)
-
-    error_v = outy - yhat_v[:, 0]  # get error of just the series lstm
-    mse_v = sum(error_v ** 2) / len(error_v)
+    mse_v = mse(outy, yhat_v)
 
     yhat_ve = yhat_v + yhat_e
-    error_ve = outy - yhat_ve[:, 0]
-    mse_ve = sum(error_ve ** 2) / len(error_ve)
+    mse_ve = mse(outy, yhat_ve)
 
     yhat_vr = yhat_v.copy()
     for i in range(len(yhat_vr)):
         yhat_vr[i] += random.uniform(-.2, .2)
-    error_vr = outy - yhat_vr[:, 0]
-    mse_vr = sum(error_vr ** 2) / len(error_vr)
+    mse_vr = mse(outy, yhat_vr)
 
     yhat_range = yhat_v.copy()
     for i in range(len(yhat_range)):
         yhat_range[i] += random.uniform(-ma, ma)
-    error_range = outy - yhat_range[:, 0]
-    mse_range = sum(error_range ** 2) / len(error_range)
+    mse_range = mse(outy, yhat_range)
 
     # for i in range(len(outx)):
     # print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
