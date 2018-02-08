@@ -3,6 +3,8 @@ from data_handler import *
 from lstm import *
 import time
 from pbt_lstm import *
+import csv
+import numpy as np
 
 
 if __name__ == '__main__':
@@ -22,11 +24,15 @@ if __name__ == '__main__':
     trainx = trainx.reshape((trainx.shape[0], 1, trainx.shape[1]))
     testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
 
-    lstm = MyLSTM(trainx.shape[1], 8, [41,81,21,27,48,66,65,55],
-                  trainy.shape[1], epochs=500, fit_verbose=2,
+    lstm = MyLSTM(trainx.shape[1], 7, [8,38,46,31,49,14,14],
+                  trainy.shape[1], epochs=235, fit_verbose=2,
                   batch_size=100)
     lstm.train(trainx, trainy)
     y_hat = lstm.predict(testx)
+    errors = testy - y_hat[:, 0]
+    print(errors.shape)
     print(mse(testy, y_hat))
+    np.savetxt('errors.csv', errors, delimiter=',')
+
  # New best error: 0.0628555460035, hyperparams= [3, [35, 29, 2], 167]
  # New best error: 0.00824273261169, hyperparams= [13, [33, 40, 24, 9, 19, 36, 39, 3, 45, 14, 24, 18, 32], 229]

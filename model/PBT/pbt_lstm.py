@@ -5,6 +5,7 @@ from lstm import *
 import gc
 
 """
+NOT USED!!a
     TODO:
         Generalize
             - add model.set_hyperparams(...) as a requirement which will create a

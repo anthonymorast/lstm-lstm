@@ -2,6 +2,7 @@ from lstm import *
 import sys
 import random
 import time
+import copy
 
 def getLSTM():
     """
@@ -26,7 +27,7 @@ def eval(model):
     global testx, testy, error_func
     y_hat = model[0].predict(testx)
     # if self.error_measure == 'mse':
-    return error_func(testy, y_hat)
+    return error_func(testy, y_hat[:,0])
 
 
 def step(model):
@@ -52,7 +53,7 @@ def exploit(index, best):
     """
     global models, trainx, trainy
     # best Format: MSE, hyperparams, weights
-    hyperparams = best[1]
+    hyperparams = copy.deepcopy(best[1])
 
     # Mutate
     hyperparams[0] = hyperparams[0] + random.randint(-2, 2)
@@ -113,10 +114,13 @@ def run(train_x, train_y, test_x, test_y, bst, error_fun, pop_size=10):
     population_size=pop_size
     error_func = error_fun
     best = bst
-
+    print(best[1])
     random.seed(time.time())
-
     best = train()
+    print(best[1])
+    if best[0] >= bst[0]:
+        best[0] = bst[0]
+        best[1] = bst[1]
     with open('best.dat', 'w+') as f:
         f.write(str(best[0]) + '\n')
         f.write(str(best[1][0]) + '\n')

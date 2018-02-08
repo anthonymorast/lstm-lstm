@@ -66,7 +66,7 @@ if __name__ == "__main__":
     # get error data and train error lstm
     yhat = base.predict(testx)
     error = testy - yhat[:, 0]
-    mse_b = sum(error ** 2) / len(yhat)
+    mse_b = mse(testy, yhat)
 
     pyplot.title("Single LSTM Residuals")
     # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
