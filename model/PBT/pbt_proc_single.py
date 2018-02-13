@@ -121,7 +121,7 @@ def run(train_x, train_y, test_x, test_y, bst, error_fun, pop_size=10):
     if best[0] >= bst[0]:
         best[0] = bst[0]
         best[1] = bst[1]
-    with open('best.dat', 'w+') as f:
+    with open('PBT/best.dat', 'w+') as f:
         f.write(str(best[0]) + '\n')
         f.write(str(best[1][0]) + '\n')
         for i in best[1][1]:

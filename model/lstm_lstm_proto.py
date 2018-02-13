@@ -36,10 +36,8 @@ if __name__ == "__main__":
     # compare lstm_v rmse with lstm_v + lstm_e prediction rsme
 
     outx, outy = out[:, 1], out[:, 3]
-
     trainx, trainy = train[:, 1], train[:, 3]
     testx, testy = test[:, 1], test[:, 3]
-
     testy_dates = test[:, 2]
 
     # vec->2d
@@ -51,15 +49,17 @@ if __name__ == "__main__":
     testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
     outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
 
-    # GA params - not that good
-    # base = MyLSTM(trainx.shape[1], 3, [49 for _ in range(3)], trainy.shape[1], epochs=84, batch_size=100)
     # not bad
     # base = MyLSTM(trainx.shape[1], 1, [50 for _ in range(3)], trainy.shape[1], epochs=200, batch_size=100)
     # base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(3)], trainy.shape[1], epochs=100, batch_size=100)
     # # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
     # # baseline: base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
-    # PBT
-    base = MyLSTM(trainx.shape[1], 8, [29, 15, 23, 122, 38, 119, 99, 63, 26, 41, 15, 47], trainy.shape[1], epochs=100, batch_size=100)
+    # PBT: model is too strong, makes worse hybrid (need weak nonlinearities)
+    base = MyLSTM(trainx.shape[1], 7,
+                  [8,38,46,31,49,14,14],
+                  trainy.shape[1], epochs=235, batch_size=100)
+    base = MyLSTM(trainx.shape[1], 2, [35 for _ in range(2)],
+                   trainy.shape[1], epochs=100, batch_size=200, fit_verbose=2)
     print("\n\nTraining Base Model...")
     base.train(trainx, trainy)
 
@@ -72,18 +72,19 @@ if __name__ == "__main__":
     # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
     pyplot.plot(error, 'bs', label="residuals")
     pyplot.legend()
-    pyplot.show()
+    # pyplot.show()
 
     # error = output (y) for each input (series value)
     e_trainx = testx
     e_trainy = error.reshape(error.shape[0], 1)
 
-    # GA params - not that good
-    # error = MyLSTM(e_trainx.shape[1], 3, [6 for _ in range(3)], e_trainy.shape[1], epochs=69, batch_size=100)
     # not bad
     # error = MyLSTM(e_trainx.shape[1], 50, [50 for _ in range(50)], e_trainy.shape[1], epochs=200, batch_size=100)
     # good: error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
-    error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
+    error = MyLSTM(e_trainx.shape[1], 6, [8,29,10,36,41,3],
+                   e_trainy.shape[1], epochs=213, batch_size=150)
+    error = MyLSTM(e_trainx.shape[1], 2, [17, 10], e_trainy.shape[1], epochs=242, batch_size=100)
+    # error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=100, batch_size=100)
     print("\n\nTraining Error Model...")
     error.train(e_trainx, e_trainy)
 
@@ -117,4 +118,4 @@ if __name__ == "__main__":
     pyplot.ylabel("EUR/USD Exchange Rate")
     pyplot.xlabel("Time (Days Since 6/23/2004)")
     pyplot.legend()
-    pyplot.show()
+    # pyplot.show()

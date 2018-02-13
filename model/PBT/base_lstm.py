@@ -30,9 +30,8 @@ if __name__ == '__main__':
     lstm.train(trainx, trainy)
     y_hat = lstm.predict(testx)
     errors = testy - y_hat[:, 0]
-    print(errors.shape)
     print(mse(testy, y_hat))
-    np.savetxt('errors.csv', errors, delimiter=',')
+    np.savetxt('PBT/errors.csv', errors, delimiter=',')
 
  # New best error: 0.0628555460035, hyperparams= [3, [35, 29, 2], 167]
  # New best error: 0.00824273261169, hyperparams= [13, [33, 40, 24, 9, 19, 36, 39, 3, 45, 14, 24, 18, 32], 229]
