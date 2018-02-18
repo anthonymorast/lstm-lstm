@@ -20,6 +20,8 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
 
 + Train error model using errors, time series values, and both to see which produces the best results. 
 
++ If the multiple LSTM model is worse, try with a really weak neural network as the first model (linear NN [no activation]?)
+
 # TODO
 + Thread PBT
   + Can't (effectively) run multiple sessions of TF on one GPU
