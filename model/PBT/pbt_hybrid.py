@@ -23,7 +23,8 @@ if __name__ == '__main__':
     best_file = 'PBT/best.dat'
     random.seed(time.time)
 
-    dh = DataHandler('../dailydata/forex/EURUSD.csv')
+    # dh = DataHandler('../dailydata/forex/EURUSD.csv')
+    dh = DataHandler('./Sunspots.csv')
     dh.timeSeriesToSupervised()
     dh.splitData(1000, 1000, len(dh.tsdata) - 2000)
 

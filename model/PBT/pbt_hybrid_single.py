@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     dh = DataHandler('../dailydata/forex/EURUSD.csv')
     dh.timeSeriesToSupervised()
-    dh.splitData(1500, 1500, len(dh.tsdata) - 3000)
+    dh.splitData(1000, 1000, len(dh.tsdata) - 2000)
 
     train, test, out = dh.getDataSets()
 
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         threshold_count = int(f.readline())
         best = [bestError, [num_hidden_layers, layer_sizes, epochs]]
         prevBest = bestError
-    else:
+    else:   
         threshold_count = 0
         best = [9999999, [1, [1,2], 1], []]
         prevBest = best[0]

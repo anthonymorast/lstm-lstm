@@ -111,7 +111,7 @@ def run(train_x, train_y, test_x, test_y, outx, outy, bst, error_fun, pop_size=1
     # Format: [model, [num_hidden_layers, hidden_layer_sizes, epochs]]
     models = []
 
-    base = MyLSTM(train_x.shape[1], 1, [250 for _ in range(1)],
+    base = MyLSTM(train_x.shape[1], 3, [50 for _ in range(3)],
                    train_y.shape[1], epochs=235, batch_size=100, fit_verbose=0)
     base.train(train_x, train_y)
     yhat = base.predict(test_x)

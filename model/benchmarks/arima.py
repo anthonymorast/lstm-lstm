@@ -1,8 +1,10 @@
-from statsmodels.tsa.arima_model import ARIMA 
+from statsmodels.tsa.arima_model import ARIMA, ARIMAResults
+from statsmodels.base.model import Results
 from matplotlib import pyplot
 import pandas as pd
 
 from data_handler import *
+from errors import *
 
 
 class Arima(object):
@@ -22,14 +24,12 @@ class Arima(object):
 	def predict(data):
 		i = 0
 
-
-
-
 if __name__ == "__main__":
-	train_size = 1000
-	test_size = 10
+	train_size = 100
+	test_size = 100
 
-	dh = DataHandler("../../dailydata/forex/EURUSD.csv")
+	# dh = DataHandler("../dailydata/forex/EURUSD.csv")
+	dh = DataHandler("./Sunspots.csv")
 	data = dh.data.values[:, 1]
 
 	train, test, out_of_sample = data[:train_size], data[train_size:(train_size+test_size)], data[(train_size+test_size):]
@@ -38,25 +38,21 @@ if __name__ == "__main__":
 	#pd.tools.plotting.autocorrelation_plot(trainx)
 	#pyplot.show()
 
-	arima = Arima(train, 5, 1, 0, 'D')
-	arima.fit()	
-	errors = pd.DataFrame(arima.get_residuals())
+	# arima = Arima(train, 5, 1, 0, 'D')
+	# arima.fit()
+	# errors = pd.DataFrame(arima.get_residuals())
 	#pyplot.plot(errors)
 	#pyplot.show()
 
 	predictions = []
+	model = ARIMA(hist, order=(1, 0, 2))
+	results = model.fit(disp=0)
 	for i in range(len(test)):
-		model = Arima(hist, 5, 1, 0, 'D')
-		fit = model.fit()
-		output = fit.forecast()
+		output = results.forecast()
 		yhat = output[0]
 		predictions.append(yhat)
 		obs = test[i]
 		hist.append(obs)
 		print('predicted: %f\texpected: %f\tdiff: %f' % (yhat, obs, abs(yhat-obs)))
 
-	mse = 0
-	for i in range(len(predictions)):
-		mse = mse + ((test[i] - predictions[i])**2)
-	mse /= len(predictions)
-	print(mse)
+	print(mse(test, predictions))

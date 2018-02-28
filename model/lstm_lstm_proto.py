@@ -21,7 +21,8 @@ if __name__ == "__main__":
     train_size = 1000
     test_size = 1000
 
-    dh = DataHandler("../dailydata/forex/EURUSD.csv")
+    # dh = DataHandler("../dailydata/forex/EURUSD.csv")
+    dh = DataHandler("./Sunspots.csv")
 
     # Creates 2 new columns that are lagged by 1. These columns are
     # the 'features'.
@@ -49,17 +50,9 @@ if __name__ == "__main__":
     testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
     outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
 
-    # not bad
-    # base = MyLSTM(trainx.shape[1], 1, [50 for _ in range(3)], trainy.shape[1], epochs=200, batch_size=100)
-    # base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(3)], trainy.shape[1], epochs=100, batch_size=100)
-    # # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
-    # # baseline: base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
-    # PBT: model is too strong, makes worse hybrid (need weak nonlinearities)
-    base = MyLSTM(trainx.shape[1], 7,
-                  [8,38,46,31,49,14,14],
-                  trainy.shape[1], epochs=235, batch_size=100)
-    base = MyLSTM(trainx.shape[1], 2, [35 for _ in range(2)],
-                   trainy.shape[1], epochs=100, batch_size=200, fit_verbose=2)
+    base = MyLSTM(trainx.shape[1], 5,
+                  [38,48,14,21,10],
+                  trainy.shape[1], epochs=500, batch_size=100)
     print("\n\nTraining Base Model...")
     base.train(trainx, trainy)
 
@@ -78,13 +71,7 @@ if __name__ == "__main__":
     e_trainx = testx
     e_trainy = error.reshape(error.shape[0], 1)
 
-    # not bad
-    # error = MyLSTM(e_trainx.shape[1], 50, [50 for _ in range(50)], e_trainy.shape[1], epochs=200, batch_size=100)
-    # good: error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)
-    error = MyLSTM(e_trainx.shape[1], 6, [8,29,10,36,41,3],
-                   e_trainy.shape[1], epochs=213, batch_size=150)
-    error = MyLSTM(e_trainx.shape[1], 2, [17, 10], e_trainy.shape[1], epochs=242, batch_size=100)
-    # error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=100, batch_size=100)
+    error = MyLSTM(e_trainx.shape[1], 2, [28, 9], e_trainy.shape[1], epochs=500, batch_size=100)
     print("\n\nTraining Error Model...")
     error.train(e_trainx, e_trainy)
 

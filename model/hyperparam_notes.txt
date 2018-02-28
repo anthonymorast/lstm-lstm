@@ -1,0 +1,10 @@
+# not bad
+# base = MyLSTM(trainx.shape[1], 1, [50 for _ in range(3)], trainy.shape[1], epochs=200, batch_size=100)
+# base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(3)], trainy.shape[1], epochs=100, batch_size=100)
+# # good: base = MyLSTM(trainx.shape[1], 1, [250 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+# # baseline: base = MyLSTM(trainx.shape[1], 1, [300 for _ in range(10)], trainy.shape[1], epochs=100, batch_size=100)
+# PBT: model is too strong, makes worse hybrid (need weak nonlinearities)
+
+# not bad
+# error = MyLSTM(e_trainx.shape[1], 50, [50 for _ in range(50)], e_trainy.shape[1], epochs=200, batch_size=100)
+# good: error = MyLSTM(e_trainx.shape[1], 3, [50 for _ in range(10)], e_trainy.shape[1], epochs=150, batch_size=100)

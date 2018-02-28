@@ -9,11 +9,11 @@ def getLSTM():
         Creates a population member.
     """
     global trainx, trainy
-    hidden_layers = random.randint(2, 15)
+    hidden_layers = random.randint(1, 15)
     layer_sizes = []
     for _ in range(0, hidden_layers):
-        layer_sizes.append(random.randint(2, 50))
-    hyperparams = [hidden_layers, layer_sizes, random.randint(50, 250)]
+        layer_sizes.append(random.randint(1, 50))
+    hyperparams = [hidden_layers, layer_sizes, random.randint(50, 1000)]
     return [MyLSTM(trainx.shape[1], hyperparams[0], hyperparams[1],
                   trainy.shape[1], epochs=hyperparams[2], fit_verbose=0,
                   batch_size=100), hyperparams]
@@ -64,6 +64,8 @@ def exploit(index, best):
 
     # Mutate
     hyperparams_base[0] = hyperparams_base[0] + random.randint(-2, 2)
+    if hyperparams_base[0] <= 0:
+        hyperparams_base[0] = 1
     for i in range(0, hyperparams_base[0]):
         if i < len(hyperparams_base[1]):
             hyperparams_base[1][i] = hyperparams_base[1][i] + random.randint(-10, 10)
@@ -78,6 +80,8 @@ def exploit(index, best):
         hyperparams_base[2] = 50
 
     hyperparams_err[0] = hyperparams_err[0] + random.randint(-2, 2)
+    if hyperparams_err[0] <= 0:
+        hyperparams_err[0] = 1
     for i in range(0, hyperparams_err[0]):
         if i < len(hyperparams_err[1]):
             hyperparams_err[1][i] = hyperparams_err[1][i] + random.randint(-10, 10)
