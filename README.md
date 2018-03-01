@@ -22,6 +22,8 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
 
 + If the multiple LSTM model is worse, try with a really weak neural network as the first model (linear NN [no activation]?)
 
++ Can an LSTM-LSTM model predict further out than an ARIMA-ANN before needing to be retrained? Is it far enough out to justify longer training times?
+
 # TODO
 + Thread PBT
   + Can't (effectively) run multiple sessions of TF on one GPU
