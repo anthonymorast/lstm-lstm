@@ -28,3 +28,11 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
   + PBT eats up too much memory as it stands
   + Run each population training run in its own thread and pass back the best error and corresponding hyperparams
   + Update best and explore/exploit in main thread
+
++ Train LSTMs similar to ARIMA for complex financial data. That is, predict a few terms, replace some training data with examples from test set (that we just tried to predict), and re-fit. Kind of like a sliding window with training.
+  + Can we more accurately predict using the LSTMs over a longer time period? That is, maybe we go out 10 time steps with ARIMA before things get bad, can we go out 10, 20, 30+ time steps with the LSTM and still get reasonable predictions?
+  
++ Multivariate data sets
+
++ Non-financial data sets (stationary datasets)
+  + A machine learning method learns a function. With non-stationary financial data the function changes over time as the statistical properties of the data change (rules of the game change) so new functions now produce the data, thus model needs re-trained. 
