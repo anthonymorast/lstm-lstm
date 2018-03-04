@@ -23,6 +23,8 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
 + If the multiple LSTM model is worse, try with a really weak neural network as the first model (linear NN [no activation]?)
 
 + Can an LSTM-LSTM model predict further out than an ARIMA-ANN before needing to be retrained? Is it far enough out to justify longer training times?
+  + What's the turning point where ARIMA is as fast as the LSTM-LSTM? What is the accuracy there? How frequently is retraining necessary here?
+  + Answer the questions: how accurate are they? how often must they be trained? how fast is it to train them? how many timesteps out can each predict while maintaining accuracy?
 
 # TODO
 + Thread PBT
