@@ -25,15 +25,15 @@ class Arima(object):
 		i = 0
 
 if __name__ == "__main__":
-	train_size = 100
-	test_size = 100
+	train_size = 1000
+	test_size = 1000
 
 	# dh = DataHandler("../dailydata/forex/EURUSD.csv")
 	dh = DataHandler("./Sunspots.csv")
 	data = dh.data.values[:, 1]
 
 	train, test, out_of_sample = data[:train_size], data[train_size:(train_size+test_size)], data[(train_size+test_size):]
-	hist = [x for x in train]
+	hist = [x for x in test]
 
 	#pd.tools.plotting.autocorrelation_plot(trainx)
 	#pyplot.show()
@@ -47,12 +47,25 @@ if __name__ == "__main__":
 	predictions = []
 	model = ARIMA(hist, order=(1, 0, 2))
 	results = model.fit(disp=0)
-	for i in range(len(test)):
-		output = results.forecast()
+	for i in range(len(out_of_sample)):
+		model = ARIMA(hist, order=(1, 0, 2))
+		fit = model.fit(disp=0)
+		output = fit.forecast()
 		yhat = output[0]
 		predictions.append(yhat)
-		obs = test[i]
+		obs = out_of_sample[i]
 		hist.append(obs)
-		print('predicted: %f\texpected: %f\tdiff: %f' % (yhat, obs, abs(yhat-obs)))
+		del hist[0]
+		print(i, len(hist))
+		# print('predicted: %f\texpected: %f\tdiff: %f' % (yhat, obs, abs(yhat-obs)))
 
-	print(mse(test, predictions))
+	print(mse(out_of_sample, predictions))
+
+	pyplot.title("ARIMA vs. Actual")
+	pyplot.plot(out_of_sample, 'bs', label='actual')
+	# pyplot.plot(yhat_v, 'r^', label='single lstm')
+	pyplot.plot(predictions, 'go', label='hybrid')
+	pyplot.ylabel("Sunspots")
+	pyplot.xlabel("Time")
+	pyplot.legend()
+	# pyplot.show()

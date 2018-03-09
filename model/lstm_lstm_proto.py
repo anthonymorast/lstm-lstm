@@ -50,9 +50,9 @@ if __name__ == "__main__":
     testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
     outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
 
-    base = MyLSTM(trainx.shape[1], 5,
-                  [38,48,14,21,10],
-                  trainy.shape[1], epochs=500, batch_size=100)
+    base = MyLSTM(trainx.shape[1], 4,
+                  [27, 25, 3, 45],
+                  trainy.shape[1], epochs=756, batch_size=100)
     print("\n\nTraining Base Model...")
     base.train(trainx, trainy)
 
@@ -71,27 +71,27 @@ if __name__ == "__main__":
     e_trainx = testx
     e_trainy = error.reshape(error.shape[0], 1)
 
-    error = MyLSTM(e_trainx.shape[1], 2, [28, 9], e_trainy.shape[1], epochs=500, batch_size=100)
+    error = MyLSTM(e_trainx.shape[1], 1, [43], e_trainy.shape[1], epochs=728, batch_size=100)
     print("\n\nTraining Error Model...")
     error.train(e_trainx, e_trainy)
 
     # with both models trained, pass in out_x to each prediction
-    yhat_v = base.predict(outx)
-    yhat_e = error.predict(outx)
-    mse_v = mse(outy, yhat_v)
+    yhat_v = base.predict(outx[:100, :, :])
+    yhat_e = error.predict(outx[:100, :, :])
+    mse_v = mse(outy[:100], yhat_v)
 
     yhat_ve = yhat_v + yhat_e
-    mse_ve = mse(outy, yhat_ve)
+    mse_ve = mse(outy[:100], yhat_ve)
 
     yhat_vr = yhat_v.copy()
     for i in range(len(yhat_vr)):
         yhat_vr[i] += random.uniform(-.2, .2)
-    mse_vr = mse(outy, yhat_vr)
+    mse_vr = mse(outy[:100], yhat_vr)
 
     yhat_range = yhat_v.copy()
     for i in range(len(yhat_range)):
         yhat_range[i] += random.uniform(-ma, ma)
-    mse_range = mse(outy, yhat_range)
+    mse_range = mse(outy[:100], yhat_range)
 
     # for i in range(len(outx)):
     # print("eurusd:", outy[i], ", naive prediction:", yhat_v[i, 0], ", hybrid prediction:", yhat_ve[i,0])
@@ -99,10 +99,10 @@ if __name__ == "__main__":
           "\nMinMax Range Random MAE:\t", mse_range)
 
     pyplot.title("LSTM-LSTM vs. LSTM vs. Actual")
-    pyplot.plot(outy, 'bs', label='actual')
-    pyplot.plot(yhat_v, 'r^', label='single lstm')
+    pyplot.plot(outy[:100], 'bs', label='actual')
+    pyplot.plot(yhat_v, 'r^', label='single lstm') # TODO: plot with best single
     pyplot.plot(yhat_ve, 'go', label='hybrid')
     pyplot.ylabel("EUR/USD Exchange Rate")
     pyplot.xlabel("Time (Days Since 6/23/2004)")
     pyplot.legend()
-    # pyplot.show()
+    pyplot.show()

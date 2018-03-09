@@ -2,8 +2,7 @@ from errors import *
 from data_handler import *
 from lstm import *
 import time
-from pbt_lstm import *
-from pbt_proc import *
+from pbt_proc_single import *
 import multiprocessing
 import os
 import subprocess
@@ -21,10 +20,12 @@ import subprocess
 
 if __name__ == '__main__':
     random.seed(time.time)
+    filename = './PBT/best.dat'
 
     dh = DataHandler('../dailydata/forex/EURUSD.csv')
+    # dh = DataHandler('./Sunspots.csv')hc
     dh.timeSeriesToSupervised()
-    dh.splitData(1000, 1000, len(dh.tsdata) - 2000)
+    dh.splitData(1000, len(dh.tsdata) - 1000, 0)
 
     train, test, out = dh.getDataSets()
 
@@ -44,8 +45,8 @@ if __name__ == '__main__':
     best = []
     threshold_count = 0
     prevBest = 9999999
-    if os.path.isfile('best.dat'):
-        f = open('best.dat')
+    if os.path.isfile(filename):
+        f = open(filename)
         bestError = float(f.readline())
         num_hidden_layers = int(f.readline())
         layer_sizes = f.readline().split(',')
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     p.start()
     p.join()
 
-    with open('best.dat', 'r') as f:
+    with open(filename, 'r') as f:
         bestLine = f.readline()
         if float(prevBest) == float(bestLine):
             threshold_count = threshold_count + 1
@@ -77,11 +78,11 @@ if __name__ == '__main__':
             threshold_count = 0
         f.close()
 
-    with open('best.dat', 'a') as f:
+    with open(filename, 'a') as f:
         f.write(str(prevBest) + '\n')
         f.write(str(threshold_count) + '\n')
         f.close()
 
     print("Time Elapsed (seconds): " + str(time.time() - start))
-    subprocess.Popen(['python', 'pbt_base.py'])
+    subprocess.Popen(['python', './PBT/pbt_base.py'])
     exit(0)

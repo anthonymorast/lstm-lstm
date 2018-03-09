@@ -13,7 +13,7 @@ def getLSTM():
     layer_sizes = []
     for _ in range(0, hidden_layers):
         layer_sizes.append(random.randint(1, 50))
-    hyperparams = [hidden_layers, layer_sizes, random.randint(50, 1000)]
+    hyperparams = [hidden_layers, layer_sizes, random.randint(50, 750)]
     return [MyLSTM(trainx.shape[1], hyperparams[0], hyperparams[1],
                   trainy.shape[1], epochs=hyperparams[2], fit_verbose=0,
                   batch_size=100), hyperparams]
@@ -24,25 +24,25 @@ def eval(model):
         Gets preditions from the model and measures the error for model
         goodness.
     """
-    global outx, outy, error_func
-    y_hat_v = model[0][0].predict(outx)
-    y_hat_e = model[1][0].predict(outx)
+    global testx, testy, error_func
+    y_hat_v = model[0][0].predict(testx)
+    y_hat_e = model[1][0].predict(testx)
     y_hat = y_hat_e + y_hat_v
     # if self.error_measure == 'mse':
-    return error_func(outy, y_hat[:,0])
+    return error_func(testy, y_hat[:,0])
 
 
 def step(model):
     """
         Trains the model using its built in train method.
     """
-    global trainx, trainy, testx, testy
+    global trainx, trainy
     print('\tTraining model with hyperparams: ', model[0][1], ' and ', model[1][1])
     model[0][0].train(trainx, trainy)
-    yhat = model[0][0].predict(testx)
-    errors = testy - yhat[:,0]
+    yhat = model[0][0].predict(trainx)
+    errors = trainy[:,0] - yhat[:,0]
     errors = errors.reshape(errors.shape[0], 1)
-    model[1][0].train(testx, errors)
+    model[1][0].train(trainx, errors)
 
 
 def explore(index):
@@ -70,9 +70,9 @@ def exploit(index, best):
         if i < len(hyperparams_base[1]):
             hyperparams_base[1][i] = hyperparams_base[1][i] + random.randint(-10, 10)
         else:
-            hyperparams_base[1].append(random.randint(2, 50))
+            hyperparams_base[1].append(random.randint(1, 50))
         if hyperparams_base[1][i] <= 0:
-            hyperparams_base[1][i] = random.randint(2, 50)
+            hyperparams_base[1][i] = random.randint(1, 50)
         if len(hyperparams_base[1]) > hyperparams_base[0]:
             hyperparams_base[1] = hyperparams_base[1][:hyperparams_base[0]]
     hyperparams_base[2] = hyperparams_base[2] + random.randint(-15, 15)
