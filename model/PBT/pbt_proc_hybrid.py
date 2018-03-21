@@ -57,7 +57,7 @@ def exploit(index, best):
     """
         Set the hyperparams and apply a mutation.
     """
-    global models, trainx, trainy
+    global models, trainx, trainy, best
     # best Format: MSE, hyperparams, weights
     hyperparams_base = copy.deepcopy(best[1])
     hyperparams_err = copy.deepcopy(best[2])

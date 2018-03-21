@@ -48,6 +48,22 @@ class MyLSTM(object):
         self.model.set_weights(weights)
 
 
+    def save_model_weights(self, filename):
+        """
+            Saves the model weights to a file. File name should have extension
+            'h5'.
+        """
+        self.model.save_weights(filename)
+
+
+    def load_model_weights(self, filename):
+        """
+            Loads the model weights from a file. File name should have extension
+            'h5'.
+        """
+        self.model.load_weights(filename)
+
+
     def train(self, train_x, train_y, optimzer='adam'):
         """
             Trains the model using the Adam optimization algortihm (more to be implemented

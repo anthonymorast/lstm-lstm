@@ -4,6 +4,7 @@ from pandas import DataFrame
 import random
 from lstm import *
 from errors import *
+import os
 
 from data_handler import *
 
@@ -22,7 +23,7 @@ if __name__ == "__main__":
     test_size = 1000
 
     # dh = DataHandler("../dailydata/forex/EURUSD.csv")
-    dh = DataHandler("./Sunspots.csv")
+    dh = DataHandler("./model/Sunspots.csv")
 
     # Creates 2 new columns that are lagged by 1. These columns are
     # the 'features'.
@@ -50,35 +51,52 @@ if __name__ == "__main__":
     testx = testx.reshape((testx.shape[0], 1, testx.shape[1]))
     outx = outx.reshape((outx.shape[0], 1, outx.shape[1]))
 
+
     base = MyLSTM(trainx.shape[1], 4,
                   [27, 25, 3, 45],
                   trainy.shape[1], epochs=756, batch_size=100)
-    print("\n\nTraining Base Model...")
-    base.train(trainx, trainy)
 
-    # get error data and train error lstm
-    yhat = base.predict(testx)
-    error = testy - yhat[:, 0]
-    mse_b = mse(testy, yhat)
+    error_model = MyLSTM(testx.shape[1], 1, [43], testx.shape[1], epochs=728, batch_size=100)
 
-    pyplot.title("Single LSTM Residuals")
-    # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
-    pyplot.plot(error, 'bs', label="residuals")
-    pyplot.legend()
-    # pyplot.show()
+    if os.path.isfile('base_weights.h5') and os.path.isfile('error_weights.h5'):
+        base.load_model_weights('base_weights.h5')
+        error_model.load_model_weights('error_weights.h5')
+    else:
+        print("\n\nTraining Base Model...")
+        base.train(trainx, trainy)
+        base.save_model_weights('base_weights.h5')
 
-    # error = output (y) for each input (series value)
-    e_trainx = testx
-    e_trainy = error.reshape(error.shape[0], 1)
+        # get error data and train error lstm
+        yhat = base.predict(testx)
+        error = testy - yhat[:, 0]
+        mse_b = mse(testy, yhat)
 
-    error = MyLSTM(e_trainx.shape[1], 1, [43], e_trainy.shape[1], epochs=728, batch_size=100)
-    print("\n\nTraining Error Model...")
-    error.train(e_trainx, e_trainy)
+        pyplot.title("Single LSTM Residuals")
+        # pyplot.plot(yhat, error, 'bs', label="residuals") # no clue which we want
+        pyplot.plot(error, 'bs', label="residuals")
+        pyplot.legend()
+        # pyplot.show()
+
+        # error = output (y) for each input (series value)
+        e_trainx = testx
+        e_trainy = error.reshape(error.shape[0], 1)
+
+        print("\n\nTraining Error Model...")
+        error_model.train(e_trainx, e_trainy)
+        error_model.save_model_weights('error_weights.h5')
+
+    # works...
+    for i in range(0, 100):
+        smpl = outx[i]
+        smpl = smpl.reshape(1, 1, 1)
+        print(base.predict(smpl))
 
     # with both models trained, pass in out_x to each prediction
     yhat_v = base.predict(outx[:100, :, :])
-    yhat_e = error.predict(outx[:100, :, :])
+    yhat_e = error_model.predict(outx[:100, :, :])
     mse_v = mse(outy[:100], yhat_v)
+    for i in range(len(yhat_v)):
+        print(yhat_v[i], outy[i])
 
     yhat_ve = yhat_v + yhat_e
     mse_ve = mse(outy[:100], yhat_ve)
@@ -105,4 +123,4 @@ if __name__ == "__main__":
     pyplot.ylabel("EUR/USD Exchange Rate")
     pyplot.xlabel("Time (Days Since 6/23/2004)")
     pyplot.legend()
-    pyplot.show()
+    # pyplot.show()
