@@ -26,6 +26,8 @@ https://gitlab.mcs.sdsmt.edu/1976379/autotrade
   + What's the turning point where ARIMA is as fast as the LSTM-LSTM? What is the accuracy there? How frequently is retraining necessary here?
   + Answer the questions: how accurate are they? how often must they be trained? how fast is it to train them? how many timesteps out can each predict while maintaining accuracy?
 
++ Does the representation need to be changed? Data preprocessing?
+
 # TODO
 + Thread PBT
   + Can't (effectively) run multiple sessions of TF on one GPU
