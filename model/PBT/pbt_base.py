@@ -20,12 +20,13 @@ import subprocess
 
 if __name__ == '__main__':
     random.seed(time.time)
-    filename = './PBT/best.dat'
+    filename = './model/PBT/best.dat'
 
-    dh = DataHandler('../dailydata/forex/EURUSD.csv')
-    # dh = DataHandler('./Sunspots.csv')hc
+    # dh = DataHandler('../dailydata/forex/EURUSD.csv')
+    # dh = DataHandler('./Sunspots.csv')
+    dh = DataHandler('./model/mackey.csv')
     dh.timeSeriesToSupervised()
-    dh.splitData(1000, len(dh.tsdata) - 1000, 0)
+    dh.splitData(500, len(dh.tsdata) - 500, 0)
 
     train, test, out = dh.getDataSets()
 
@@ -61,7 +62,7 @@ if __name__ == '__main__':
         threshold_count = 0
         best = [9999999, [1, [1,2], 1], []]
         prevBest = best[0]
-    if threshold_count >= 10:   #threshold
+    if threshold_count >= 25:   #threshold
         print("Threshold count reached.")
         exit(0)
 
@@ -84,5 +85,5 @@ if __name__ == '__main__':
         f.close()
 
     print("Time Elapsed (seconds): " + str(time.time() - start))
-    subprocess.Popen(['python', './PBT/pbt_base.py'])
+    subprocess.Popen(['python', './model/PBT/pbt_base.py'])
     exit(0)

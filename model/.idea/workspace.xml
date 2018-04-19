@@ -44,7 +44,7 @@
       <file leaf-file-name="arima.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/benchmarks/arima.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
+            <state relative-caret-position="51">
               <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
               <folding>
                 <marker date="1520448355994" expanded="true" signature="0:45" placeholder="import ..." />
@@ -61,9 +61,6 @@
               <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-                <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-                <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
               </folding>
             </state>
           </provider>
@@ -75,12 +72,9 @@
             <state relative-caret-position="204">
               <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
               <folding>
-                <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-                <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+                <element signature="e#218#245#0" expanded="true" />
                 <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
                 <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-                <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-                <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -136,7 +130,7 @@
     <option name="STATE" value="1" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -149,13 +143,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
@@ -354,7 +342,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15068494" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -435,23 +423,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -461,32 +439,15 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_ga.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="67" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
+    <entry file="file://$PROJECT_DIR$/parameter_ga.py" />
     <entry file="file://$PROJECT_DIR$/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -503,23 +464,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -529,32 +480,15 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_ga.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="67" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
+    <entry file="file://$PROJECT_DIR$/parameter_ga.py" />
     <entry file="file://$PROJECT_DIR$/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -571,23 +505,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -597,32 +521,15 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_ga.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
+    <entry file="file://$PROJECT_DIR$/parameter_ga.py" />
     <entry file="file://$PROJECT_DIR$/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -639,23 +546,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="8" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -665,32 +562,15 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_ga.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
+    <entry file="file://$PROJECT_DIR$/parameter_ga.py" />
     <entry file="file://$PROJECT_DIR$/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -707,23 +587,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="8" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -733,24 +603,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
     <entry file="file://D:/Python36/Lib/site-packages/tensorflow/python/platform/self_check.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -758,14 +618,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_ga.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_ga.py" />
     <entry file="file://$PROJECT_DIR$/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -782,23 +635,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="8" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
@@ -808,24 +651,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
     <entry file="file://$PROJECT_DIR$/depends.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -849,38 +682,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_ga.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="67" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_ga.py" />
     <entry file="file://$PROJECT_DIR$/lstm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="799">
           <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1516930295192" expanded="true" signature="96:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1758:2329" placeholder="..." />
-            <marker date="1516930295192" expanded="true" signature="1767:2150" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lstm_lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1972">
-          <caret line="122" column="19" selection-start-line="122" selection-start-column="19" selection-end-line="122" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lstm_lstm.py" />
     <entry file="file://$PROJECT_DIR$/benchmarks/arima.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
+        <state relative-caret-position="51">
           <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
           <folding>
             <marker date="1520448355994" expanded="true" signature="0:45" placeholder="import ..." />
@@ -894,23 +710,13 @@
         <state relative-caret-position="204">
           <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
           <folding>
-            <marker date="1516598457262" expanded="true" signature="218:267" placeholder="import ..." />
-            <marker date="1516598457262" expanded="true" signature="269:321" placeholder="..." />
+            <element signature="e#218#245#0" expanded="true" />
             <marker date="1516598457262" expanded="true" signature="339:379" placeholder="..." />
             <marker date="1516598457262" expanded="true" signature="378:379" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1287:1408" placeholder="..." />
-            <marker date="1516598457262" expanded="true" signature="1473:1562" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parameter_select.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parameter_select.py" />
   </component>
 </project>
